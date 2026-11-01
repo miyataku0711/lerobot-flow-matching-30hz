@@ -1,0 +1,39 @@
+# SO-101 leader -> follower teleoperation with 3 cameras (data collection).
+# Replace the <...> placeholders with your own device paths
+# (`ls /dev/serial/by-id/` and `ls /dev/v4l/by-id/`). Fixed by-id paths keep the
+# mapping stable across reboots; /dev/ttyACM* and /dev/video* follow plug order.
+robot:
+  type: so101_follower
+  port: <FOLLOWER_SERIAL_BY_ID>        # e.g. /dev/serial/by-id/usb-1a86_USB_Single_Serial_XXXX-if00
+  id: follower_arm
+  use_degrees: true
+  disable_torque_on_disconnect: true
+
+  cameras:
+    front:                              # wrist camera, HD USB Camera (~99 fps delivered)
+      type: opencv
+      index_or_path: <WRIST_CAMERA_BY_ID>
+      width: 640
+      height: 480
+      fps: 120
+      fourcc: MJPG
+    left:                               # EMEET SmartCam C960
+      type: opencv
+      index_or_path: <LEFT_CAMERA_BY_ID>
+      width: 640
+      height: 480
+      fps: 30
+      fourcc: MJPG
+    right:                              # EMEET SmartCam C960
+      type: opencv
+      index_or_path: <RIGHT_CAMERA_BY_ID>
+      width: 640
+      height: 480
+      fps: 30
+      fourcc: MJPG
+
+teleop:
+  type: so101_leader
+  port: <LEADER_SERIAL_BY_ID>
+  id: leader_arm
+  use_degrees: true
